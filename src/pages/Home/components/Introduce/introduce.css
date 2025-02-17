@@ -1,0 +1,68 @@
+.introduce-item{
+    background-color: rgba(238, 44, 74, 0.9);
+    transform: skewY(-2deg);
+    padding: 3% 5%;
+    margin-top: 6%;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+
+.introduce-item.visible {
+    opacity: 1;
+}
+
+.introduce-info{
+    margin-top: 15%;
+}
+/* Animation cho video trượt từ trái sang phải */
+/* Ẩn các phần tử trước khi animation chạy */
+.introduce-video,
+.introduce-info-title,
+.introduce-info-desc {
+    opacity: 0;
+    transform: translateY(20px); /* Hoặc sử dụng translateX tùy thuộc vào hiệu ứng */
+}
+
+/* Khi phần tử có lớp "visible" sẽ kích hoạt animation */
+.introduce-item.visible .introduce-video {
+    opacity: 1;
+    animation: slideLeftToRight 0.8s ease-out forwards;
+}
+
+.introduce-item.visible .introduce-info-title {
+    opacity: 1;
+    animation: slideRightToLeft 0.8s ease-out forwards;
+}
+
+.introduce-item.visible .introduce-info-desc {
+    opacity: 1;
+    animation: slideUp 1s ease-out forwards;
+}
+
+/* Keyframes cho các animation */
+@keyframes slideLeftToRight {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideRightToLeft {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

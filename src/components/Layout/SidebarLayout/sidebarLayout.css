@@ -1,0 +1,12 @@
+.sidebar {
+    height: 100%;
+}
+.sidebar a {
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
+.sidebar a:hover {
+    background-color: #DEDEDE;
+}

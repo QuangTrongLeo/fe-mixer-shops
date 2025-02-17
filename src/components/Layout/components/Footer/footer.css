@@ -1,0 +1,11 @@
+footer{
+  margin-top: 5%;
+}
+
+.text-link:hover{
+    color: var(--primary-color) !important;
+  }
+
+  .icon-foundation{
+    margin-right: 5%;
+  }

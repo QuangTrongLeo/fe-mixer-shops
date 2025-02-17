@@ -1,0 +1,63 @@
+.roduct-detail-image {
+    max-height: 400px;
+    object-fit: cover;
+}
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+.thumbnail:hover, .thumbnail.active {
+    opacity: 1;
+}
+
+.image-gallery {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/* Cài đặt mặc định cho các vòng tròn màu sắc */
+.color-label {
+    display: block;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #000;
+    border: 1px solid #D3D3D3;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+}
+
+/* Thêm hiệu ứng zoom khi màu sắc được chọn */
+.color-label.selected {
+    transform: scale(1.3); /* Tăng kích thước lên 1.4 lần */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Thêm bóng mờ để nổi bật */
+}
+
+
+
+
+/* Cài đặt mặc định cho các nút kích thước */
+.size-option .btn {
+    transition: all 0.3s ease;
+    /* padding: 10px 20px; */
+    border-radius: 50%;
+    border: 1px solid #D3D3D3;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+/* Thêm hiệu ứng zoom khi kích thước được chọn */
+.size-option .btn.selected {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background-color: #f0f0f0;
+}
+

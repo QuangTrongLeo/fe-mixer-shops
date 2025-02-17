@@ -1,0 +1,25 @@
+.policies-image{
+    margin-right: 10px;
+}
+
+.policies-title{
+    font-weight: 500;
+}
+
+.policies-desc{
+    font-size: 0.8rem;
+}
+
+.policies-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s ease-out;
+    z-index: 1;
+  }
+  
+  .policies-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  

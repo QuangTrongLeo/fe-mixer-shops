@@ -1,0 +1,56 @@
+.banner-item {
+    background-color: rgba(238, 44, 74, 0.9);
+    transform: skewY(2deg);
+    padding: 3% 5%;
+    opacity: 0; /* Ban đầu ẩn đi */
+    transition: opacity 0.5s ease-out; /* Thêm hiệu ứng mờ */
+    margin-top: 8%;
+}
+
+.banner-item-left{
+    width: 300px;
+}
+
+.banner-item-left,
+.banner-item-right{
+    height: 300px;
+    width: auto;
+    object-fit: cover;
+}
+
+/* Animation cho phần banner-item-left khi xuất hiện */
+.banner-item.visible .banner-item-left {
+    opacity: 1;
+    animation: slideLeftToRight 1s ease-out forwards;
+}
+
+/* Animation cho phần banner-item-right khi xuất hiện */
+.banner-item.visible .banner-item-right {
+    opacity: 1;
+    animation: slideRightToLeft 1s ease-out forwards;
+}
+
+/* Keyframes cho animation slide từ trái qua phải */
+@keyframes slideLeftToRight {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Keyframes cho animation slide từ phải qua trái */
+@keyframes slideRightToLeft {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Khi phần tử banner-item xuất hiện trên màn hình */
+.banner-item.visible {
+    opacity: 1;
+}
