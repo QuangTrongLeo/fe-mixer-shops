@@ -7,12 +7,14 @@ function Order() {
     // Mảng chứa các đơn hàng với orderId
     const orders = [
         {
-            orderId: 1,
+            productId: 1,
             name: "The Old From The New",
             price: "500.000 vnđ",
             color: "Đen",
             size: "M",
             quantity: "10",
+            telephone: "0865417145",
+            address: "Cư xá C, đại học Nông Lâm",
             status: "Đang vận chuyển",
             images: [
                 "https://down-bs-vn.img.susercontent.com/4245466651b3b151516679ae6cdb46c0.webp",
@@ -25,12 +27,14 @@ function Order() {
             ]
         },
         {
-            orderId: 2,
+            productId: 2,
             name: "Áo khoác Bomber 'MIXER Swan'",
             price: "600.000 vnđ",
             color: "Đen",
             size: "M",
             quantity: "10",
+            telephone: "0865417145",
+            address: "Cư xá C, đại học Nông Lâm",
             status: "Đang vận chuyển",
             images: [
                 "https://down-vn.img.susercontent.com/file/vn-11134207-7ras8-m3w3u8qn9q5k83@resize_w900_nl.webp",
@@ -40,8 +44,8 @@ function Order() {
     ];
 
     // Hàm để hiển thị chi tiết đơn hàng
-    const showOrderDetails = (orderId) => {
-        const order = orders.find(o => o.orderId === orderId);
+    const showOrderDetails = (productId) => {
+        const order = orders.find(o => o.productId === productId);
         setSelectedOrder(order);  // Cập nhật trạng thái với đơn hàng đã chọn
     };
 
@@ -65,8 +69,8 @@ function Order() {
                 </thead>
                 <tbody>
                     {orders.map(order => (
-                        <tr key={order.orderId} onClick={() => showOrderDetails(order.orderId)}>
-                            <th scope="row">{order.orderId}</th>
+                        <tr key={order.productId} onClick={() => showOrderDetails(order.productId)}>
+                            <th scope="row">{order.productId}</th>
                             <td>
                                 <img
                                     src={order.images[0]}
@@ -130,6 +134,18 @@ function Order() {
                             <div className="mb-3 product-order-details">
                                 <span className="form-label">Số lượng: </span>
                                 <span>{selectedOrder.quantity}</span>
+                            </div>
+                            <div className="mb-3 product-order-details">
+                                <span className="form-label">Tổng giá: </span>
+                                <span>{selectedOrder.price}</span>
+                            </div>
+                            <div className="mb-3 product-order-details">
+                                <span className="form-label">Số điện thoại: </span>
+                                <span>{selectedOrder.telephone}</span>
+                            </div>
+                            <div className="mb-3 product-order-details">
+                                <span className="form-label">Địa chỉ: </span>
+                                <span>{selectedOrder.address}</span>
                             </div>
                             <div className="mb-3 product-order-details">
                                 <span className="form-label">Trạng thái: </span>
