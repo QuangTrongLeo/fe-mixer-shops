@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import routesConfig from '~/config/routes';
 import "./newproducts.css";
 import { useEffect, useState } from 'react';
 
@@ -30,13 +31,16 @@ function NewProducts() {
             <h2 className="text-center">Sản phẩm mới nhất</h2><br />
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
                 {sortedProducts.map(product => {
-                    const formattedPrice = new Intl.NumberFormat('vi-VN').format(product.price);
+                    const formattedPrice = product.price
+                        ? product.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
+                        : "Giá chưa có";
                     return (
                         <div className="col" key={product.id}>
-                            <Link to="/detail" className="card product-card border-0 rounded-4 shadow-sm">
+                            <Link to={routesConfig.detail.replace(':productId', product.id)} className="card product-card border-0 rounded-4 shadow-sm">
                                 <div className="position-relative">
                                     <div className="overflow-hidden">
-                                        <img src={product.images[0] ? `http://localhost:3003${product.images[0].downloadUrl}` : 'https://cdn3.iconfinder.com/data/icons/it-and-ui-mixed-filled-outlines/48/default_image-1024.png'} className="card-img-top product-image" alt={product.name} />
+                                        <img src={product.images[0] ? `http://localhost:3003${product.images[0].downloadUrl}` : 'https://cdn3.iconfinder.com/data/icons/it-and-ui-mixed-filled-outlines/48/default_image-1024.png'}
+                                        className="card-img-top product-image" alt={product.name} />
                                     </div>
                                 </div>
                                 <div className="card-body p-4">
@@ -48,7 +52,7 @@ function NewProducts() {
                                         textOverflow: 'ellipsis'
                                     }}>{product.name}</h6><hr />
                                     <div className="d-flex justify-content-between align-items-center">
-                                        <span className="price">{formattedPrice}đ</span>
+                                        <span className="price">{formattedPrice}</span>
                                         <div className="rating">
                                             <i className="bi bi-star-fill text-warning"></i>
                                             <i className="bi bi-star-fill text-warning"></i>

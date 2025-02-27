@@ -1,85 +1,64 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./detail.css";
+import { useParams } from "react-router-dom";
 
 function Detail() {
-    // State quản lý lựa chọn màu sắc, kích thước và số lượng
-    const [checkedColor, setCheckedColor] = useState('Đen'); // Mặc định là màu Đen
-    const [checkedSize, setCheckedSize] = useState('size1');
+    const { productId } = useParams();
+    const [product, setProduct] = useState({});
+    const [checkedColor, setCheckedColor] = useState(null);
+    const [checkedSize, setCheckedSize] = useState(null);
     const [quantity, setQuantity] = useState(1);
+    const [mainImage, setMainImage] = useState("");
 
-    const product = {
-        id: 1,
-        name: "Premium Wireless Headphones",
-        price: "299.000đ",
-        images: [
-            "https://down-bs-vn.img.susercontent.com/4245466651b3b151516679ae6cdb46c0.webp",
-            "https://down-bs-vn.img.susercontent.com/89a05cd7a53b19882b0134c5cc234f2a.webp",
-            "https://down-bs-vn.img.susercontent.com/a9df968e11ddd30902932a8c38a3385d.webp",
-            "https://down-bs-vn.img.susercontent.com/6f943e896e406215c51628b1a7fc0fc6.webp",
-            "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp",
-            "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp",
-            "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp"
-        ],
-        colors: [
-            {
-                id: 1,
-                nameColor: 'Đen',
-                hexCode: '000000'
-            },
-            {
-                id: 2,
-                nameColor: 'Trắng',
-                hexCode: 'FFFFFF'
-            },
-            {
-                id: 3,
-                nameColor: 'Lam',
-                hexCode: '0000FF'
-            }
-        ],
-        sizes: [
-            {
-                id: 1,
-                sizeName: 'S'
-            },
-            {
-                id: 2,
-                sizeName: 'M'
-            },
-            {
-                id: 3,
-                sizeName: 'L'
-            }
-        ]
-    };
+    useEffect(() => {
+        console.log(productId);
+        if (productId) {
+            fetch(`http://localhost:3003/api/mixer-shops/products/product/${productId}`)
+            .then((req) => req.json())
+            .then((data) => {
+                console.log("Product:", data);
+                if (data.msg === "Success!") {
+                    setProduct(data.data);
+                    // Nếu có thể, bạn có thể chọn màu đầu tiên mặc định
+                    if (data.data.colors && data.data.colors.length > 0) {
+                        setCheckedColor(data.data.colors[0].id);
+                    }
+                    // Đặt hình ảnh chính mặc định là hình ảnh đầu tiên
+                    if (data.data.images && data.data.images.length > 0) {
+                        setMainImage(`http://localhost:3003${data.data.images[0].downloadUrl}`);
+                    }
+                }
+            })
+            .catch((err) => {
+                console.error(err);                
+            });
+        }
+    }, [productId]);
 
-    // Hàm thay đổi ảnh khi người dùng chọn thumbnail
     const changeImage = (src) => {
-        document.getElementById('mainImage').src = src;
+        setMainImage(`http://localhost:3003${src}`);
     };
 
-    // Hàm thay đổi số lượng sản phẩm
     const handleQuantityChange = (event) => {
         setQuantity(event.target.value);
     };
 
-
-    // Hàm render lựa chọn màu sắc
     const renderColorOptions = () => {
+        if (!product.colors) return null;
         return product.colors.map(color => (
             <div key={color.id} className="color-option" style={{ display: 'inline-block', marginRight: '10px' }}>
                 <input
                     type="radio"
                     className="btn-check"
                     name="color"
-                    id={color.nameColor}
-                    checked={checkedColor === color.nameColor}
-                    onChange={() => setCheckedColor(color.nameColor)}
+                    id={color.id}
+                    checked={checkedColor === color.id}
+                    onChange={() => setCheckedColor(color.id)}
                     style={{ display: 'none' }}
                 />
                 <label
-                    htmlFor={color.nameColor}
-                    className={`color-label ${color.nameColor.toLowerCase()} ${checkedColor === color.nameColor ? 'selected' : ''}`}
+                    htmlFor={color.name}
+                    className={`color-label ${color.name.toLowerCase()} ${checkedColor === color.id ? 'selected' : ''}`}
                     style={{
                         backgroundColor: `#${color.hexCode}`,
                     }}
@@ -88,10 +67,10 @@ function Detail() {
         ));
     };
 
-    // Hàm render lựa chọn kích thước
-    // Hàm render lựa chọn kích thước
     const renderSizeOptions = () => {
-        return product.sizes.map((size) => (
+        const selectedColor = product.colors.find(color => color.id === checkedColor);
+        if (!selectedColor || !selectedColor.sizes) return null;
+        return selectedColor.sizes.map((size) => (
             <div key={size.id} className="size-option">
                 <input
                     type="radio"
@@ -106,43 +85,53 @@ function Detail() {
                     htmlFor={`size${size.id}`}
                     className={`btn me-3 ${checkedSize === `size${size.id}` ? 'selected' : ''}`}
                 >
-                    {size.sizeName}
+                    {size.name}
                 </label>
             </div>
         ));
     };
 
+    // Fallback giá trị cho price
+    const formattedPrice = product.price
+        ? product.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
+        : "Giá chưa có";
+
+    // Kiểm tra nếu dữ liệu chưa được tải
+    if (!product || !product.images || !product.colors) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="container mt-5">
             <div className="row">
-                {/* Product Images */}
                 <div className="col-md-6">
+                    {/* Hình ảnh chính */}
                     <img
-                        src={product.images[0]}
+                        src={mainImage || 'https://cdn3.iconfinder.com/data/icons/it-and-ui-mixed-filled-outlines/48/default_image-1024.png'}
                         alt={product.name}
+                        style={{ maxWidth: '360px', display: 'block', margin: '0 auto' }}
                         className="img-fluid rounded mb-3 product-detail-image"
                         id="mainImage"
                     />
-                    <div className="d-flex  justify-content-evenly image-gallery">
+                    {/* Thumbnails */}
+                    <div className="d-flex justify-content-evenly image-gallery">
                         {product.images.map((image, index) => (
                             <img
                                 key={index}
-                                src={image}
+                                src={`http://localhost:3003${image.downloadUrl}`}
                                 alt={`Thumbnail ${index + 1}`}
                                 className="thumbnail rounded"
-                                onClick={() => changeImage(image)}
+                                onClick={() => changeImage(image.downloadUrl)}  // Cập nhật hình ảnh chính khi click vào thumbnail
                             />
                         ))}
                     </div>
                 </div>
 
-                {/* Product Details */}
                 <div className="col-md-6">
                     <h2 className="mb-3">{product.name}</h2>
-                    <p className="mb-4">Thể loại: WH1000XM4</p>
+                    <p className="mb-4">Thể loại: {product.category ? product.category.name : "Unknown"}</p>
                     <div className="mb-3">
-                        <span className="h5 me-2 text-danger">{product.price}</span>
+                        <span className="h5 me-2 text-danger">{formattedPrice}</span>
                     </div>
                     <div className="mb-3">
                         <i className="bi bi-star-fill text-warning"></i>
@@ -152,6 +141,7 @@ function Detail() {
                         <i className="bi bi-star-half text-warning"></i>
                     </div>
 
+                    {/* Màu sắc */}
                     <div className="mb-4">
                         <h6>Màu:</h6>
                         <div className="btn-group" role="group">
@@ -159,6 +149,7 @@ function Detail() {
                         </div>
                     </div>
 
+                    {/* Kích thước */}
                     <div className="mb-4">
                         <h6>Kích thước:</h6>
                         <div className="btn-group" role="group">
@@ -166,6 +157,7 @@ function Detail() {
                         </div>
                     </div>
 
+                    {/* Số lượng */}
                     <h6 htmlFor="quantity" className="form-label">Số lượng:</h6>
                     <div className="d-flex justify-content-between">
                         <input
@@ -182,6 +174,7 @@ function Detail() {
                         </button>
                     </div>
 
+                    {/* Số lượng kho */}
                     <div className="d-flex align-items-left">
                         <h6 className="form-label m-0">Kho hàng có sẵn: </h6>
                         <span className="m-0 ms-2">1000 sản phẩm</span>
@@ -190,6 +183,7 @@ function Detail() {
 
                     <p>Hotline: <a className="link" href="tel:0822221992">0822221992</a> (7:30 - 22:00)</p>
 
+                    {/* Chính sách sản phẩm */}
                     <ul className="product-policises list-unstyled py-sm-3 px-sm-3 m-0">
                         <li className="media">
                             <img className="img-fluid" width="24" height="24" src="//theme.hstatic.net/200000881795/1001243022/14/policy_product_image_1.png?v=152" alt="Giao hàng toàn quốc" />
@@ -206,6 +200,7 @@ function Detail() {
                     </ul>
                     <hr />
 
+                    {/* Khuyến mãi - Ưu đãi */}
                     <div className="mt-4">
                         <h5 className="text-danger"><i className="fa-solid fa-gift"></i> Khuyến mãi - Ưu đãi:</h5>
                         <ul>

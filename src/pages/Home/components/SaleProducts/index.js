@@ -27,7 +27,9 @@ function SaleProducts() {
             <h2 className="text-center">Sản phẩm đang bán</h2><br />
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
                 {sortedProducts.map((product, index) => {
-                    const formattedPrice = new Intl.NumberFormat('vi-VN').format(product.price);
+                    const formattedPrice = product.price
+                        ? product.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
+                        : "Giá chưa có";
                     return (
                         <div key={product.id + '-' + index} className="col">
                             <Link to="/detail" className="card product-card border-0 rounded-4 shadow-sm">
@@ -41,7 +43,8 @@ function SaleProducts() {
                                     </div>
                                 </div>
                                 <div className="card-body p-4">
-                                    <h6 className="card-title mb-3" style={{
+                                    <h6 className="card-title mb-3" 
+                                    style={{
                                         display: '-webkit-box',
                                         WebkitLineClamp: 2,
                                         WebkitBoxOrient: 'vertical',
@@ -49,7 +52,7 @@ function SaleProducts() {
                                         textOverflow: 'ellipsis'
                                     }}>{product.name}</h6><hr />
                                     <div className="d-flex justify-content-between align-items-center">
-                                        <span className="price">{formattedPrice}đ</span>
+                                        <span className="price">{formattedPrice}</span>
                                         <div className="rating">
                                             <i className="bi bi-star-fill text-warning"></i>
                                             <i className="bi bi-star-fill text-warning"></i>
