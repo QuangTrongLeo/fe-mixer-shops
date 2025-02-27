@@ -3,92 +3,6 @@ import "./newproducts.css";
 import { useEffect, useState } from 'react';
 
 function NewProducts() {
-    // const products = [
-    //     {
-    //         id: 1,
-    //         name: "Premium Wireless Headphones",
-    //         price: "299.000đ",
-    //         images: [
-    //             "https://down-bs-vn.img.susercontent.com/4245466651b3b151516679ae6cdb46c0.webp",
-    //             "https://down-bs-vn.img.susercontent.com/89a05cd7a53b19882b0134c5cc234f2a.webp",
-    //             "https://down-bs-vn.img.susercontent.com/a9df968e11ddd30902932a8c38a3385d.webp",
-    //             "https://down-bs-vn.img.susercontent.com/6f943e896e406215c51628b1a7fc0fc6.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp"
-    //         ]
-    //     },
-    //     {
-    //         id: 2,
-    //         name: "Premium Wireless Headphones",
-    //         price: "299.000đ",
-    //         images: [
-    //             "https://down-bs-vn.img.susercontent.com/4245466651b3b151516679ae6cdb46c0.webp",
-    //             "https://down-bs-vn.img.susercontent.com/89a05cd7a53b19882b0134c5cc234f2a.webp",
-    //             "https://down-bs-vn.img.susercontent.com/a9df968e11ddd30902932a8c38a3385d.webp",
-    //             "https://down-bs-vn.img.susercontent.com/6f943e896e406215c51628b1a7fc0fc6.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp"
-    //         ]
-    //     },
-    //     {
-    //         id: 3,
-    //         name: "Premium Wireless Headphones",
-    //         price: "299.000đ",
-    //         images: [
-    //             "https://down-bs-vn.img.susercontent.com/4245466651b3b151516679ae6cdb46c0.webp",
-    //             "https://down-bs-vn.img.susercontent.com/89a05cd7a53b19882b0134c5cc234f2a.webp",
-    //             "https://down-bs-vn.img.susercontent.com/a9df968e11ddd30902932a8c38a3385d.webp",
-    //             "https://down-bs-vn.img.susercontent.com/6f943e896e406215c51628b1a7fc0fc6.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp"
-    //         ]
-    //     },
-    //     {
-    //         id: 4,
-    //         name: "Premium Wireless Headphones",
-    //         price: "299.000đ",
-    //         images: [
-    //             "https://down-bs-vn.img.susercontent.com/4245466651b3b151516679ae6cdb46c0.webp",
-    //             "https://down-bs-vn.img.susercontent.com/89a05cd7a53b19882b0134c5cc234f2a.webp",
-    //             "https://down-bs-vn.img.susercontent.com/a9df968e11ddd30902932a8c38a3385d.webp",
-    //             "https://down-bs-vn.img.susercontent.com/6f943e896e406215c51628b1a7fc0fc6.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp"
-    //         ]
-    //     },
-    //     {
-    //         id: 5,
-    //         name: "Premium Wireless Headphones",
-    //         price: "299.000đ",
-    //         images: [
-    //             "https://down-bs-vn.img.susercontent.com/4245466651b3b151516679ae6cdb46c0.webp",
-    //             "https://down-bs-vn.img.susercontent.com/89a05cd7a53b19882b0134c5cc234f2a.webp",
-    //             "https://down-bs-vn.img.susercontent.com/a9df968e11ddd30902932a8c38a3385d.webp",
-    //             "https://down-bs-vn.img.susercontent.com/6f943e896e406215c51628b1a7fc0fc6.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp"
-    //         ]
-    //     },
-    //     {
-    //         id: 6,
-    //         name: "Premium Wireless Headphones",
-    //         price: "299.000đ",
-    //         images: [
-    //             "https://down-bs-vn.img.susercontent.com/4245466651b3b151516679ae6cdb46c0.webp",
-    //             "https://down-bs-vn.img.susercontent.com/89a05cd7a53b19882b0134c5cc234f2a.webp",
-    //             "https://down-bs-vn.img.susercontent.com/a9df968e11ddd30902932a8c38a3385d.webp",
-    //             "https://down-bs-vn.img.susercontent.com/6f943e896e406215c51628b1a7fc0fc6.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp",
-    //             "https://down-bs-vn.img.susercontent.com/016292401e97380c3868b447b49acdc5.webp"
-    //         ]
-    //     },
-    // ];
 
     const [products, setProducts] = useState([]);
     useEffect(() => {
@@ -119,11 +33,17 @@ function NewProducts() {
                         <Link to="/detail" className="card product-card border-0 rounded-4 shadow-sm">
                             <div className="position-relative">
                                 <div className="overflow-hidden">
-                                    <img src={product.images[0] ? `http://localhost:3003${product.images[0].downloadUrl}` : null} className="card-img-top product-image" alt={product.name} />
+                                    <img src={product.images[0] ? `http://localhost:3003${product.images[0].downloadUrl}` : 'https://cdn3.iconfinder.com/data/icons/it-and-ui-mixed-filled-outlines/48/default_image-1024.png'} className="card-img-top product-image" alt={product.name} />
                                 </div>
                             </div>
                             <div className="card-body p-4">
-                                <h6 className="card-title mb-3">{product.name}</h6><hr />
+                                <h6 className="card-title mb-3" style={{
+                                    display: '-webkit-box',
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: 'vertical',
+                                    overflow: 'hidden', // Fallback cho các trình duyệt không hỗ trợ -webkit-line-clamp
+                                    textOverflow: 'ellipsis'
+                                }}>{product.name}</h6><hr />
                                 <div className="d-flex justify-content-between align-items-center">
                                     <span className="price">{product.price}vnđ</span>
                                     <div className="rating">
