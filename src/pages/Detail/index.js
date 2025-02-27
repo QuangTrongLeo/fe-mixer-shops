@@ -10,39 +10,63 @@ function Detail() {
     const [quantity, setQuantity] = useState(1);
     const [mainImage, setMainImage] = useState("");
 
+    // Lấy dữ liệu sản phẩm từ API
     useEffect(() => {
-        console.log(productId);
         if (productId) {
             fetch(`http://localhost:3003/api/mixer-shops/products/product/${productId}`)
-            .then((req) => req.json())
-            .then((data) => {
-                console.log("Product:", data);
-                if (data.msg === "Success!") {
-                    setProduct(data.data);
-                    // Nếu có thể, bạn có thể chọn màu đầu tiên mặc định
-                    if (data.data.colors && data.data.colors.length > 0) {
-                        setCheckedColor(data.data.colors[0].id);
+                .then((req) => req.json())
+                .then((data) => {
+                    console.log("Product:", data);
+                    if (data.msg === "Success!") {
+                        setProduct(data.data);
                     }
-                    // Đặt hình ảnh chính mặc định là hình ảnh đầu tiên
-                    if (data.data.images && data.data.images.length > 0) {
-                        setMainImage(`http://localhost:3003${data.data.images[0].downloadUrl}`);
-                    }
-                }
-            })
-            .catch((err) => {
-                console.error(err);                
-            });
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
         }
     }, [productId]);
 
+    // Khi dữ liệu product đã được tải, thực hiện việc chọn màu và hình ảnh
+    useEffect(() => {
+        if (product.colors && product.colors.length > 0) {
+            // Nếu chưa có màu được chọn, chọn màu đầu tiên
+            if (!checkedColor) {
+                const firstColor = product.colors[0];
+                setCheckedColor(firstColor.id);
+                console.log(`Đang chọn màu: ${firstColor.name} với id: ${firstColor.id}`);
+            }
+        }
+
+        if (product.images && product.images.length > 0) {
+            setMainImage(`http://localhost:3003${product.images[0].downloadUrl}`);
+        }
+    }, [product, checkedColor]);
+
+    // useEffect này sẽ chạy khi checkedColor thay đổi, tự động chọn kích thước đầu tiên của màu được chọn
+    useEffect(() => {
+        if (product.colors && checkedColor) {
+            const selectedColor = product.colors.find(color => color.id === checkedColor);
+            if (selectedColor && selectedColor.sizes && selectedColor.sizes.length > 0 && !checkedSize) {
+                const firstSize = selectedColor.sizes[0];
+                setCheckedSize(`size${firstSize.id}`);
+                console.log(`Đang chọn kích thước: ${firstSize.name} với id: ${firstSize.id}`);
+            }
+        }
+    }, [checkedColor, product, checkedSize]);
+
+    // Chức năng thay đổi hình ảnh chính
     const changeImage = (src) => {
         setMainImage(`http://localhost:3003${src}`);
     };
 
+    // Xử lý thay đổi số lượng
     const handleQuantityChange = (event) => {
         setQuantity(event.target.value);
+        console.log("Số lượng: ", event.target.value);
     };
 
+    // Render các lựa chọn màu sắc
     const renderColorOptions = () => {
         if (!product.colors) return null;
         return product.colors.map(color => (
@@ -51,14 +75,17 @@ function Detail() {
                     type="radio"
                     className="btn-check"
                     name="color"
-                    id={color.id}
+                    id={`color-${color.id}`}
                     checked={checkedColor === color.id}
-                    onChange={() => setCheckedColor(color.id)}
+                    onChange={() => {
+                        console.log(`Đang chọn màu: ${color.name} với id: ${color.id}`);
+                        setCheckedColor(color.id);
+                    }}
                     style={{ display: 'none' }}
                 />
                 <label
-                    htmlFor={color.name}
-                    className={`color-label ${color.name.toLowerCase()} ${checkedColor === color.id ? 'selected' : ''}`}
+                    htmlFor={`color-${color.id}`}
+                    className={`color-label ${checkedColor === color.id ? 'selected' : ''}`}
                     style={{
                         backgroundColor: `#${color.hexCode}`,
                     }}
@@ -67,6 +94,7 @@ function Detail() {
         ));
     };
 
+    // Render các lựa chọn kích thước dựa trên màu sắc đã chọn
     const renderSizeOptions = () => {
         const selectedColor = product.colors.find(color => color.id === checkedColor);
         if (!selectedColor || !selectedColor.sizes) return null;
@@ -78,7 +106,10 @@ function Detail() {
                     name="size"
                     id={`size${size.id}`}
                     checked={checkedSize === `size${size.id}`}
-                    onChange={() => setCheckedSize(`size${size.id}`)}
+                    onChange={() => {
+                        console.log(`Đang chọn kích thước: ${size.name} với id: ${size.id}`);
+                        setCheckedSize(`size${size.id}`);
+                    }}
                     style={{ display: 'none' }}
                 />
                 <label
@@ -121,7 +152,7 @@ function Detail() {
                                 src={`http://localhost:3003${image.downloadUrl}`}
                                 alt={`Thumbnail ${index + 1}`}
                                 className="thumbnail rounded"
-                                onClick={() => changeImage(image.downloadUrl)}  // Cập nhật hình ảnh chính khi click vào thumbnail
+                                onClick={() => changeImage(image.downloadUrl)}
                             />
                         ))}
                     </div>

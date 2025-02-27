@@ -35,10 +35,9 @@
     margin-right: 10px;
 }
 
-/* Thêm hiệu ứng zoom khi màu sắc được chọn */
 .color-label.selected {
-    transform: scale(1.3); /* Tăng kích thước lên 1.4 lần */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Thêm bóng mờ để nổi bật */
+    transform: scale(1.3);  /* Tăng kích thước */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);  /* Thêm bóng mờ */
 }
 
 
