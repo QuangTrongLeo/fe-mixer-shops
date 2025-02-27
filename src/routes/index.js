@@ -18,6 +18,7 @@ import Profile from '~/pages/Profile';
 import Register from '~/pages/Register';
 import Search from '~/pages/Search';
 import Terms from '~/pages/Terms';
+import AllProducts from '~/pages/AllProducts';
 
 // Customer
 const publicRoutesCustomer = [
@@ -33,6 +34,7 @@ const publicRoutesCustomer = [
     { path: routesConfig.register, component: Register},
     { path: routesConfig.terms, component: Terms},
     { path: routesConfig.category, component: Category, layout: SidebarLayout},
+    { path: routesConfig.products, component: AllProducts, layout: SidebarLayout},
     { path: routesConfig.manager, component: Manager, layout: SidebarLayout},
     { path: routesConfig.search, component: Search, layout: SidebarLayout}
 ]

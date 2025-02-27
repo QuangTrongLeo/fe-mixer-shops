@@ -1,52 +1,50 @@
-import { Link } from 'react-router-dom';
-import "./newproducts.css";
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-function NewProducts() {
+function AllProducts() {
 
     const [products, setProducts] = useState([]);
     useEffect(() => {
         fetch('http://localhost:3003/api/mixer-shops/products/all')
-            .then((response) => response.json())  // <-- Correct the function call to response.json()
+            .then((req) => req.json())
             .then((data) => {
-                console.log("New Products")
+                console.log("All Products");
                 console.log(data);
-                if(data.msg === "Success!"){
+                if (data.msg === "Success!") {
                     setProducts(data.data);
                 }
             })
-            .catch((error) => {
-                console.error(error);
+            .catch((err) => {
+                console.error(err);
             })
-
     }, []);
-
-    // Sắp xếp theo ID từ lớn đến nhỏ và lấy 5 sản phẩm đầu tiên
-    const sortedProducts = products.sort((a, b) => b.id - a.id).slice(0, 5);
 
     return (
         <div className="container">
             <br />
-            <h2 className="text-center">Sản phẩm mới nhất</h2><br />
-            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
-                {sortedProducts.map(product => {
+            <h2 className="text-center">Tất cả sản phẩm</h2><br />
+            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+                {products.map((product) => {
                     const formattedPrice = new Intl.NumberFormat('vi-VN').format(product.price);
                     return (
                         <div className="col" key={product.id}>
-                            <Link to="/detail" className="card product-card border-0 rounded-4 shadow-sm">
+                            <Link to="" className="card product-card border-0 rounded-4 shadow-sm">
                                 <div className="position-relative">
                                     <div className="overflow-hidden">
-                                        <img src={product.images[0] ? `http://localhost:3003${product.images[0].downloadUrl}` : 'https://cdn3.iconfinder.com/data/icons/it-and-ui-mixed-filled-outlines/48/default_image-1024.png'} className="card-img-top product-image" alt={product.name} />
+                                        <img src={product.images[0] ? `http://localhost:3003${product.images[0].downloadUrl}` : 'https://cdn3.iconfinder.com/data/icons/it-and-ui-mixed-filled-outlines/48/default_image-1024.png'}
+                                        className="card-img-top product-image" alt={product.name} />
                                     </div>
                                 </div>
                                 <div className="card-body p-4">
-                                    <h6 className="card-title mb-3" style={{
+                                    <h6 className="card-title mb-3"
+                                    style={{
                                         display: '-webkit-box',
                                         WebkitLineClamp: 2,
                                         WebkitBoxOrient: 'vertical',
                                         overflow: 'hidden',
                                         textOverflow: 'ellipsis'
-                                    }}>{product.name}</h6><hr />
+                                    }}
+                                    >{product.name}</h6><hr />
                                     <div className="d-flex justify-content-between align-items-center">
                                         <span className="price">{formattedPrice}đ</span>
                                         <div className="rating">
@@ -60,7 +58,7 @@ function NewProducts() {
                                 </div>
                             </Link>
                         </div>
-                    )
+                    )    
                 }
                     
                 )}
@@ -69,4 +67,4 @@ function NewProducts() {
     );
 }
 
-export default NewProducts;
+export default AllProducts;

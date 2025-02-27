@@ -11,6 +11,7 @@ const routes = {
     register: "/register",
     terms: "/terms",
     category: "/category",
+    products: "/all-products",
     manager: "/manager",
     search: "/search"
 }

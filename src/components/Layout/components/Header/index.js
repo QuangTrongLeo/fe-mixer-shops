@@ -1,11 +1,28 @@
 import { Link } from 'react-router-dom';
 import routesConfig from '~/config/routes';
 import './header.css';
+import { useEffect, useState } from 'react';
 
 function Header() {
   // Giả lập currentUser
   // const currentUser = { name: "Admin", role: 1 };
   const currentUser = null;
+
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    fetch('http://localhost:3003/api/mixer-shops/categories/all')
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("All Categories")
+        console.log(data)
+        if (data.msg === 'Success!') {
+          setCategories(data.data);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-lg position-fixed top-0 w-100" style={{ zIndex: 10, backgroundColor: 'white' }}>
@@ -29,13 +46,18 @@ function Header() {
                 Sản phẩm
               </Link>
               <ul className="dropdown-menu">
-                <li><Link className="dropdown-item" to="#">Áo khoác Bomber</Link></li>
+                {categories.map((category) => (
+                  <li key={category.id}>
+                    <Link className="dropdown-item" to="#">{category.name}</Link>
+                  </li>
+                ))}
+                {/* <li><Link className="dropdown-item" to="#">Áo khoác Bomber</Link></li>
                 <li><Link className="dropdown-item" to="#">Áo Hoodie</Link></li>
                 <li><Link className="dropdown-item" to="#">Áo Sweater</Link></li>
                 <li><Link className="dropdown-item" to="#">Áo nỉ</Link></li>
                 <li><Link className="dropdown-item" to="#">Áo thun</Link></li>
                 <li><Link className="dropdown-item" to="#">Quần Short</Link></li>
-                <li><Link className="dropdown-item" to="#">Quần dài</Link></li>
+                <li><Link className="dropdown-item" to="#">Quần dài</Link></li> */}
               </ul>
             </li>
             <li className="nav-item">
