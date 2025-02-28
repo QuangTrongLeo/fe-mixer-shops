@@ -6,9 +6,10 @@ function Detail() {
     const { productId } = useParams();
     const [product, setProduct] = useState({});
     const [checkedColor, setCheckedColor] = useState(null);
-    const [checkedSize, setCheckedSize] = useState(null); // Store as an integer
+    const [checkedSize, setCheckedSize] = useState(null);
     const [quantity, setQuantity] = useState(1);
     const [mainImage, setMainImage] = useState("");
+    const [cartId, setCartId] = useState(null);
 
     // Lấy dữ liệu sản phẩm từ API
     useEffect(() => {
@@ -34,7 +35,6 @@ function Detail() {
             if (!checkedColor) {
                 const firstColor = product.colors[0];
                 setCheckedColor(firstColor.id);
-                // console.log(`Đang chọn màu: ${firstColor.name} với id: ${firstColor.id}`);
             }
         }
 
@@ -66,6 +66,41 @@ function Detail() {
     const handleQuantityChange = (event) => {
         setQuantity(event.target.value);
     };
+
+    const addToCart = () => {
+        if (!checkedColor || !checkedSize || !quantity) {
+            alert("Vui lòng lựa chọn màu, size và số lượng đầy đủ!");
+            return;
+        }
+
+        const cartItemData = {
+            cartId: cartId || null,
+            productId: productId,
+            colorId: checkedColor,
+            sizeId: checkedSize,
+            quantity: quantity
+        }
+
+        fetch('http://localhost:3003/api/mixer-shops/cart-items/item/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(cartItemData),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.msg === "Success!") {
+                    alert("Thêm sản phẩm thành công vào giỏ hàng");
+                } else {
+                    alert("Thêm sản phẩm vào giỏ hàng thất bại")
+                }
+            })
+            .catch((err) => {
+                console.error("Error adding item to cart:", err);
+                alert("Error adding item to cart.");
+            });
+    }
 
     // Render các lựa chọn màu sắc
     const renderColorOptions = () => {
@@ -208,7 +243,7 @@ function Detail() {
                             onChange={handleQuantityChange}
                             style={{ width: "120px" }}
                         />
-                        <button className="btn btn-danger mb-3 me-2" style={{ width: "260px" }}>
+                        <button className="btn btn-danger mb-3 me-2" style={{ width: "260px" }} onClick={addToCart}>
                             <i className="bi bi-cart-plus"></i> Thêm vào giỏ hàng
                         </button>
                     </div>
