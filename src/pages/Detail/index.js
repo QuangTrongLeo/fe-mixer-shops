@@ -216,7 +216,21 @@ function Detail() {
                     {/* Số lượng kho */}
                     <div className="d-flex align-items-left">
                         <h6 className="form-label m-0">Kho hàng có sẵn: </h6>
-                        <span className="m-0 ms-2">1000 sản phẩm</span>
+                        <span className="m-0 ms-2">
+                            {checkedColor ? 
+                                // Tìm màu đã chọn trong mảng colors
+                                (product.colors.find(color => color.id === checkedColor) ? 
+                                    // Tìm trong size của màu đó
+                                    (product.colors.find(color => color.id === checkedColor).sizes.find(size => size.id === checkedSize) ?
+                                        // Nếu có size thì lấy inventory
+                                        product.colors.find(color => color.id === checkedColor).sizes.find(size => size.id === checkedSize).inventory
+                                        : 'Không có') 
+                                    : 'Không có'
+                                ) 
+                            : 'Không có'} sản phẩm
+                        </span>
+
+                        
                     </div>
                     <hr />
 
