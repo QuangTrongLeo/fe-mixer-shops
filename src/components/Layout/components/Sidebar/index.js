@@ -1,13 +1,16 @@
 import { Link } from 'react-router-dom';
 import './sidebar.css';
 import server from '~/config/server';
+import routeConfigs from '~/config/routes';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 function Sidebar() {
-    const [colors, setColors] = useState([]);
+    const { categoryName } = useParams(); // Lấy categoryName từ URL
+    const [colors, setColors] = useState([]); // Mảng lưu trữ các màu
 
     useEffect(() => {
-        // Fetch dữ liệu từ API
+        // Fetch dữ liệu màu từ API
         fetch(`${server}/colors/all`)
             .then((res) => res.json())
             .then((data) => {
@@ -23,13 +26,13 @@ function Sidebar() {
                         }
                     });
 
-                    setColors(uniqueColors); // Cập nhật state
+                    setColors(uniqueColors); // Cập nhật state với màu duy nhất
                 }
             })
             .catch((err) => {
                 console.error(err);
             });
-    }, []); // Chỉ chạy một lần khi component mount
+    }, []); // Chạy 1 lần khi component mount
 
     return (
         <div>
@@ -42,7 +45,10 @@ function Sidebar() {
             </a>
             <div className="collapse" id="colorDropdown">
                 {colors.map((color) => (
-                    <Link to="#" key={color.id}>
+                    <Link 
+                        to={`${routeConfigs.category.replace(':categoryName', categoryName)}?color=${color.name}`} 
+                        key={color.id}
+                    >
                         <span className="color-circle" style={{ backgroundColor: `#${color.hexCode}` }}></span>
                         <span className="link-text">{color.name}</span>
                     </Link>
