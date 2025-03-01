@@ -37,22 +37,32 @@ function Sidebar() {
     return (
         <div>
             <br />
-            <h3 className="text-center">Menu</h3>
+            <h3 className="text-center">
+                {categoryName ? (
+                    <Link to={routeConfigs.category.replace(':categoryName', categoryName)}>Menu</Link>
+                ) : (
+                    <Link to={routeConfigs.products}>Menu</Link>
+                )}
+            </h3>
 
             {/* Mục Màu có dropdown */}
             <a href="#colorDropdown" data-bs-toggle="collapse" aria-expanded="false" aria-controls="colorDropdown">
                 Màu <i className="fas fa-chevron-down"></i>
             </a>
             <div className="collapse" id="colorDropdown">
-                {colors.map((color) => (
-                    <Link 
-                        to={`${routeConfigs.category.replace(':categoryName', categoryName)}?color=${color.name}`} 
-                        key={color.id}
-                    >
-                        <span className="color-circle" style={{ backgroundColor: `#${color.hexCode}` }}></span>
-                        <span className="link-text">{color.name}</span>
-                    </Link>
-                ))}
+                {colors.map((color) => {
+                    const linkTo = categoryName 
+                        ? `${routeConfigs.category.replace(':categoryName', categoryName)}?color=${color.name}` 
+                        : `${routeConfigs.products}?color=${color.name}`;
+                
+                    return (
+                        <Link to={linkTo} key={color.id}>
+                            <span className="color-circle" style={{ backgroundColor: `#${color.hexCode}` }}></span>
+                            <span className="link-text">{color.name}</span>
+                        </Link>
+                    );
+                    }
+                )}
             </div>
 
             {/* Mục Giá cả có dropdown */}

@@ -1,25 +1,44 @@
 import { useEffect, useState } from 'react';
 import routesConfig from '~/config/routes';
 import server from '~/config/server';
+import { useLocation } from 'react-router-dom'; // Để lấy query params từ URL
 import { Link } from 'react-router-dom';
 
 function AllProducts() {
-
     const [products, setProducts] = useState([]);
+    const location = useLocation(); // Để lấy query params (ví dụ ?color=Đen)
+    const queryParams = new URLSearchParams(location.search);
+    const colorParam = queryParams.get('color'); // Lấy tham số màu từ query string (nếu có)
+
     useEffect(() => {
-        fetch(`${server}/products/all`)
-            .then((req) => req.json())
-            .then((data) => {
-                console.log("All Products");
-                console.log(data);
-                if (data.msg === "Success!") {
-                    setProducts(data.data);
-                }
-            })
-            .catch((err) => {
-                console.error(err);
-            })
-    }, []);
+        // Nếu có tham số màu, fetch sản phẩm theo màu
+        if (colorParam) {
+            fetch(`${server}/products/by-color?color=${colorParam}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log("Products by color", data);
+                    if (data.msg === "Success!") {
+                        setProducts(data.data); // Cập nhật danh sách sản phẩm theo màu
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        } else {
+            // Nếu không có tham số màu, fetch tất cả sản phẩm
+            fetch(`${server}/products/all`)
+                .then((req) => req.json())
+                .then((data) => {
+                    console.log("All Products", data);
+                    if (data.msg === "Success!") {
+                        setProducts(data.data); // Cập nhật danh sách tất cả sản phẩm
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        }
+    }, [colorParam]); // Chạy lại mỗi khi query params 'color' thay đổi
 
     return (
         <div className="container">
@@ -62,10 +81,8 @@ function AllProducts() {
                                 </div>
                             </Link>
                         </div>
-                    )    
-                }
-                    
-                )}
+                    );
+                })}
             </div>
         </div>
     );
