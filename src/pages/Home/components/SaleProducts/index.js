@@ -32,7 +32,7 @@ function SaleProducts() {
                         : "Giá chưa có";
                     return (
                         <div key={product.id + '-' + index} className="col">
-                            <Link to="/detail" className="card product-card border-0 rounded-4 shadow-sm">
+                            <Link to={routesConfig.detail.replace(':productId', product.id)} className="card product-card border-0 rounded-4 shadow-sm">
                                 <div className="position-relative">
                                     <div className="overflow-hidden">
                                         <img

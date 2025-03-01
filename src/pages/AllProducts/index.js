@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import routesConfig from '~/config/routes';
 import { Link } from 'react-router-dom';
 
 function AllProducts() {
@@ -28,7 +29,7 @@ function AllProducts() {
                     const formattedPrice = new Intl.NumberFormat('vi-VN').format(product.price);
                     return (
                         <div className="col" key={product.id}>
-                            <Link to="" className="card product-card border-0 rounded-4 shadow-sm">
+                            <Link to={routesConfig.detail.replace(':productId', product.id)} className="card product-card border-0 rounded-4 shadow-sm">
                                 <div className="position-relative">
                                     <div className="overflow-hidden">
                                         <img src={product.images[0] ? `http://localhost:3003${product.images[0].downloadUrl}` : 'https://cdn3.iconfinder.com/data/icons/it-and-ui-mixed-filled-outlines/48/default_image-1024.png'}
