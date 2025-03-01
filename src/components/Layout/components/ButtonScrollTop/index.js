@@ -40,7 +40,7 @@ function ButtonScrollTop() {
         borderRadius: '50%',
         cursor: 'pointer',
         boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',
-        backgroundColor: '#d9534f',
+        backgroundColor: '#4C4C4C',
         color: 'white',
       }}
       aria-label="Scroll to top"

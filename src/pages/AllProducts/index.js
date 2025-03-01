@@ -27,7 +27,9 @@ function AllProducts() {
             <h2 className="text-center">Tất cả sản phẩm</h2><br />
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
                 {products.map((product) => {
-                    const formattedPrice = new Intl.NumberFormat('vi-VN').format(product.price);
+                    const formattedPrice = product.price
+                        ? product.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })
+                        : "Giá chưa có";
                     return (
                         <div className="col" key={product.id}>
                             <Link to={routesConfig.detail.replace(':productId', product.id)} className="card product-card border-0 rounded-4 shadow-sm">
@@ -48,7 +50,7 @@ function AllProducts() {
                                     }}
                                     >{product.name}</h6><hr />
                                     <div className="d-flex justify-content-between align-items-center">
-                                        <span className="price">{formattedPrice}đ</span>
+                                        <span className="price">{formattedPrice}</span>
                                         <div className="rating">
                                             <i className="bi bi-star-fill text-warning"></i>
                                             <i className="bi bi-star-fill text-warning"></i>

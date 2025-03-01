@@ -49,7 +49,7 @@ function Header() {
               <ul className="dropdown-menu">
                 {categories.map((category) => (
                   <li key={category.id}>
-                    <Link className="dropdown-item" to={routesConfig.category.replace(':categoryId', category.id)}>{category.name}</Link>
+                    <Link className="dropdown-item" to={routesConfig.category.replace(':categoryName', category.name)}>{category.name}</Link>
                   </li>
                 ))}
               </ul>
