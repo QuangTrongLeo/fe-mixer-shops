@@ -49,16 +49,9 @@ function Header() {
               <ul className="dropdown-menu">
                 {categories.map((category) => (
                   <li key={category.id}>
-                    <Link className="dropdown-item" to="#">{category.name}</Link>
+                    <Link className="dropdown-item" to={routesConfig.category.replace(':categoryId', category.id)}>{category.name}</Link>
                   </li>
                 ))}
-                {/* <li><Link className="dropdown-item" to="#">Áo khoác Bomber</Link></li>
-                <li><Link className="dropdown-item" to="#">Áo Hoodie</Link></li>
-                <li><Link className="dropdown-item" to="#">Áo Sweater</Link></li>
-                <li><Link className="dropdown-item" to="#">Áo nỉ</Link></li>
-                <li><Link className="dropdown-item" to="#">Áo thun</Link></li>
-                <li><Link className="dropdown-item" to="#">Quần Short</Link></li>
-                <li><Link className="dropdown-item" to="#">Quần dài</Link></li> */}
               </ul>
             </li>
             <li className="nav-item">

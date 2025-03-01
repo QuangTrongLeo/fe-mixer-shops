@@ -10,7 +10,7 @@ const routes = {
     profile: "/profile",
     register: "/register",
     terms: "/terms",
-    category: "/category",
+    category: "/category/:categoryId",
     products: "/all-products",
     manager: "/manager",
     search: "/search"
