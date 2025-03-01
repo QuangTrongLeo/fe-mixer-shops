@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import './sidebar.css';
-import server from '~/server/server';
+import server from '~/config/server';
 import { useState, useEffect } from 'react';
 
 function Sidebar() {

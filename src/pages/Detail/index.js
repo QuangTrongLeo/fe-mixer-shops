@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./detail.css";
+import server from '~/config/server';
 import { useParams } from "react-router-dom";
 
 function Detail() {
@@ -14,7 +15,7 @@ function Detail() {
     // Lấy dữ liệu sản phẩm từ API
     useEffect(() => {
         if (productId) {
-            fetch(`http://localhost:3003/api/mixer-shops/products/product/${productId}`)
+            fetch(`${server}/products/product/${productId}`)
                 .then((req) => req.json())
                 .then((data) => {
                     console.log("Product:", data);
@@ -81,7 +82,7 @@ function Detail() {
             quantity: quantity
         }
 
-        fetch('http://localhost:3003/api/mixer-shops/cart-items/item/add', {
+        fetch(`${server}/cart-items/item/add`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

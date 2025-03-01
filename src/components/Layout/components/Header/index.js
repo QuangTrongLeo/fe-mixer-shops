@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import routesConfig from '~/config/routes';
+import server from '~/config/server';
 import './header.css';
 import { useEffect, useState } from 'react';
 
@@ -10,7 +11,7 @@ function Header() {
 
   const [categories, setCategories] = useState([]);
   useEffect(() => {
-    fetch('http://localhost:3003/api/mixer-shops/categories/all')
+    fetch(`${server}/categories/all`)
       .then((response) => response.json())
       .then((data) => {
         console.log("All Categories")

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import routesConfig from '~/config/routes';
+import server from '~/config/server';
 import { Link } from 'react-router-dom';
 
 function AllProducts() {
 
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:3003/api/mixer-shops/products/all')
+        fetch(`${server}/products/all`)
             .then((req) => req.json())
             .then((data) => {
                 console.log("All Products");

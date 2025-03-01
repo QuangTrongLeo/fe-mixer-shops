@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import routesConfig from '~/config/routes';
+import server from '~/config/server';
 import "./newproducts.css";
 import { useEffect, useState } from 'react';
 
@@ -7,7 +8,7 @@ function NewProducts() {
 
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:3003/api/mixer-shops/products/all')
+        fetch(`${server}/products/all`)
             .then((response) => response.json())  // <-- Correct the function call to response.json()
             .then((data) => {
                 console.log("New Products")
