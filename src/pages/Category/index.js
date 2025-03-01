@@ -9,7 +9,7 @@ function Category() {
     const { categoryName } = useParams();
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        fetch(`${server}/by-name/${categoryName}/category`)
+        fetch(`${server}/products/by-name/${categoryName}/category`)
             .then((req) => req.json())
             .then((data) => {
                 console.log("All Products");
