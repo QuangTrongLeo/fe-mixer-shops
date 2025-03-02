@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import routesConfig from '~/config/routes';
 import server from '~/config/server';
-import { useLocation } from 'react-router-dom'; // Để lấy query params từ URL
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 function AllProducts() {

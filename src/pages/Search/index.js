@@ -14,6 +14,7 @@ function Search() {
     };
 
     const name = getQueryParam('name');
+    const color = getQueryParam('color');
 
     useEffect(() => {
 
@@ -27,7 +28,20 @@ function Search() {
             .catch((err) => {
                 console.error(err);
             });
-    }, [name]); // Thêm dependency để fetch lại khi "name" thay đổi
+    }, [name]);
+
+    useEffect(() => {
+        fetch(`${server}/products/by-name-product-and-color?name=${encodeURIComponent(name)}&color=${encodeURIComponent(color)}`)
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.msg === "Success!") {
+                    setProducts(data.data); // Cập nhật sản phẩm
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }, [name, color]);
 
     return (
         <div className="container">

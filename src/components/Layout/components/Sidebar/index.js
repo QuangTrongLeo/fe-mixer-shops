@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom'; // useLocation để lấy URL hiện tại
 import './sidebar.css';
 import server from '~/config/server';
 import routeConfigs from '~/config/routes';
@@ -8,6 +8,11 @@ import { useParams } from 'react-router-dom';
 function Sidebar() {
     const { categoryName } = useParams(); // Lấy categoryName từ URL
     const [colors, setColors] = useState([]); // Mảng lưu trữ các màu
+    const location = useLocation(); // Lấy thông tin URL hiện tại
+    const queryParams = new URLSearchParams(location.search); // Truy cập các tham số trong URL
+
+    // Kiểm tra tham số `name` trong URL
+    const searchName = queryParams.get('name');
 
     useEffect(() => {
         // Fetch dữ liệu màu từ API
@@ -39,8 +44,13 @@ function Sidebar() {
             <br />
             <h3 className="text-center">
                 {categoryName ? (
+                    // Nếu có categoryName, dẫn đến menu của danh mục đó
                     <Link to={routeConfigs.category.replace(':categoryName', categoryName)}>Menu</Link>
+                ) : searchName ? (
+                    // Nếu có tham số `name`, dẫn đến sản phẩm với tham số `name` (chuyển lại `name=`)
+                    <Link to={`${routeConfigs.search}?name=`}>Menu</Link>
                 ) : (
+                    // Nếu không có cả `categoryName` và `name`, dẫn đến trang sản phẩm
                     <Link to={routeConfigs.products}>Menu</Link>
                 )}
             </h3>
@@ -51,8 +61,12 @@ function Sidebar() {
             </a>
             <div className="collapse" id="colorDropdown">
                 {colors.map((color) => {
+                    // Nếu có categoryName, sử dụng đường dẫn category và màu
+                    // Nếu có searchName, sử dụng đường dẫn search với `name` và màu
                     const linkTo = categoryName 
                         ? `${routeConfigs.category.replace(':categoryName', categoryName)}?color=${color.name}` 
+                        : searchName
+                        ? `${routeConfigs.search}?name=${searchName}&color=${color.name}` // Giữ tham số `name` và thêm `color`
                         : `${routeConfigs.products}?color=${color.name}`;
                 
                     return (
@@ -61,8 +75,7 @@ function Sidebar() {
                             <span className="link-text">{color.name}</span>
                         </Link>
                     );
-                    }
-                )}
+                })}
             </div>
 
             {/* Mục Giá cả có dropdown */}
