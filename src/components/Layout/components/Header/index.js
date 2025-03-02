@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import routesConfig from '~/config/routes';
 import server from '~/config/server';
 import './header.css';
@@ -10,6 +10,9 @@ function Header() {
   const currentUser = null;
 
   const [categories, setCategories] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
+
   useEffect(() => {
     fetch(`${server}/categories/all`)
       .then((response) => response.json())
@@ -24,6 +27,11 @@ function Header() {
         console.error(err);
       })
   }, []);
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    navigate(`${routesConfig.search}?name=${searchTerm}`);
+  }
 
   return (
     <nav className="navbar navbar-expand-lg position-fixed top-0 w-100" style={{ zIndex: 10, backgroundColor: 'white' }}>
@@ -58,9 +66,18 @@ function Header() {
               <Link className="nav-link" to={routesConfig.contact}>Liên hệ</Link>
             </li>
           </ul>
-          <form className="d-flex mx-auto" role="search">
-            <input className="form-control me-2" type="search" placeholder="Tìm kiếm" aria-label="Search" />
-            <button className="btn btn-outline-danger" type="submit"><i className="fa-solid fa-magnifying-glass"></i></button>
+
+          {/* Search */}
+          <form className="d-flex mx-auto" role="search" onSubmit={handleSearchSubmit}>
+            <input 
+              className="form-control me-2" 
+              type="search" 
+              placeholder="Tìm kiếm" 
+              aria-label="Search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <button className="btn btn-outline-danger" type="submit"><i className="fa-solid fa-magnifying-glass"></i></button>            
           </form>
 
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
