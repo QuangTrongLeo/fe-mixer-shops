@@ -12,12 +12,12 @@ function SidebarLayout({ children }) {
             <div className="container">
                 <div className="row">
                     {/* Sidebar (chiếm 3 cột) */}
-                    <div className="col-md-3 sidebar">
+                    <div className="col-md-2 sidebar">
                         <Sidebar />
                     </div>
 
                     {/* Nội dung chính (chiếm 9 cột) */}
-                    <div className="col-md-9 content">
+                    <div className="col-md-10 content">
                         <div className="content">{children}</div>
                     </div>
                 </div>
