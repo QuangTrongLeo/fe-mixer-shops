@@ -12,6 +12,18 @@ function Detail() {
     const [mainImage, setMainImage] = useState("");
     const [cartId, setCartId] = useState(null);
 
+    useEffect(() => {
+        const savedCartId = localStorage.getItem('cartId'); // Hoặc bạn có thể lấy từ sessionStorage
+        if (savedCartId) {
+            setCartId(savedCartId); // Cập nhật cartId từ localStorage
+        } else {
+            // Nếu không có cartId trong localStorage, tạo mới (có thể gửi request API để tạo cart mới)
+            const newCartId = "newCartId"; // Bạn có thể thay thế bằng cách tạo cartId thực tế từ server
+            setCartId(newCartId);
+            localStorage.setItem('cartId', newCartId); // Lưu cartId vào localStorage
+        }
+    }, []);
+
     // Lấy dữ liệu sản phẩm từ API
     useEffect(() => {
         if (productId) {
