@@ -7,6 +7,9 @@ function Introduce() {
   const videoRef = useRef(null); // Tham chiếu tới phần tử video
 
   useEffect(() => {
+    // Lưu introduceItemRef.current vào một biến trong useEffect
+    const introduceItemElement = introduceItemRef.current;
+
     // Cấu hình cho Intersection Observer
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
@@ -25,11 +28,11 @@ function Introduce() {
     }, { threshold: 0.5 }); // Ngưỡng là khi ít nhất 50% phần tử xuất hiện trên màn hình
 
     // Quan sát phần tử introduce-item
-    if (introduceItemRef.current) observer.observe(introduceItemRef.current);
+    if (introduceItemElement) observer.observe(introduceItemElement);
 
     // Cleanup: Ngừng quan sát khi component bị unmount
     return () => {
-      if (introduceItemRef.current) observer.unobserve(introduceItemRef.current);
+      if (introduceItemElement) observer.unobserve(introduceItemElement);
     };
   }, []); // Chạy 1 lần khi component render
 
@@ -68,5 +71,3 @@ function Introduce() {
 }
 
 export default Introduce;
-
-

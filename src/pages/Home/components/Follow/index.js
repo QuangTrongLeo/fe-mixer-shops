@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import "./follow.css";
 
 function Follow() {
@@ -14,7 +14,7 @@ function Follow() {
     };
 
     // Hàm để thêm class 'visible' vào flip-card-inner khi phần tử vào viewport
-    const handleScroll = () => {
+    const handleScroll = useCallback(() => {
         const flipCards = document.querySelectorAll('.flip-card');
         flipCards.forEach((flipCard) => {
             const flipCardInner = flipCard.querySelector('.flip-card-inner');
@@ -23,7 +23,7 @@ function Follow() {
                 flipCardInner.classList.remove('hidden'); // Hiển thị khi vào viewport
             }
         });
-    };
+    }, []); // Giới hạn phụ thuộc vào các giá trị không thay đổi
 
     // Lắng nghe sự kiện scroll và gọi hàm handleScroll
     useEffect(() => {
@@ -33,7 +33,7 @@ function Follow() {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, []);
+    }, [handleScroll]); // Thêm handleScroll vào dependency array
 
     return (
         <div className="container py-5">
